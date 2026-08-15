@@ -1,0 +1,12 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+
+    "usuarios": { ".indexOn": ["codigo", "email", "rol", "activo"] },
+    "pacientes": { ".indexOn": ["estado", "activo", "habitacion"] },
+    "ordenes": { ".indexOn": ["pacienteId", "estado", "horaProgramada"] },
+    "alertas": { ".indexOn": ["pacienteId", "atendida", "creadaEn"] },
+    "inventario": { ".indexOn": ["nombre", "stock"] }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "hospital-his-firebase-service-alerts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JJgithubUT/hospital-his-firebase-service-alerts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JJgithubUT/hospital-his-firebase-service-alerts/issues"
+  },
+  "homepage": "https://github.com/JJgithubUT/hospital-his-firebase-service-alerts#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "firebase": "^12.17.1",
+    "firebase-admin": "^14.2.0"
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "config": {
+    "umbrales": {
+      "spo2":          { "criticoMenorQue": 90, "atencionMenorQue": 94 },
+      "hr":            { "criticoMenorQue": 45, "criticoMayorQue": 120, "atencionMenorQue": 55, "atencionMayorQue": 100 },
+      "temperatura":   { "criticoMayorQue": 39.0, "atencionMayorQue": 37.8 },
+      "sistolica":     { "criticoMenorQue": 85, "criticoMayorQue": 160, "atencionMayorQue": 140 },
+      "frecuenciaRespiratoria": { "criticoMayorQue": 28, "atencionMayorQue": 22 }
+    },
+    "app": {
+      "maxIntentosPin": 3,
+      "nombreHospital": "Hospital Demo"
+    }
+  },
+
+  "usuarios": {
+    "u_admin_01": {
+      "nombre": "Ana Ramírez",
+      "rol": "administrador",
+      "email": "admin@hospital.demo",
+      "password": "admin123",
+      "activo": true,
+      "creadoEn": "2026-08-01T08:00:00"
+    },
+    "u_farm_01": {
+      "nombre": "Luis Fuentes",
+      "rol": "farmaceutico",
+      "email": "farmacia@hospital.demo",
+      "password": "farmacia123",
+      "activo": true,
+      "creadoEn": "2026-08-01T08:00:00"
+    },
+    "u_med_01": {
+      "nombre": "Dr. Martínez Pérez",
+      "rol": "medico",
+      "codigo": "MED-001",
+      "pin": "123456",
+      "activo": true,
+      "bloqueado": false,
+      "intentosFallidos": 0,
+      "creadoEn": "2026-08-01T08:00:00"
+    },
+    "u_med_02": {
+      "nombre": "Dra. Sofía Cabrera",
+      "rol": "medico",
+      "codigo": "MED-002",
+      "pin": "222222",
+      "activo": true,
+      "bloqueado": false,
+      "intentosFallidos": 0,
+      "creadoEn": "2026-08-01T08:00:00"
+    },
+    "u_enf_01": {
+      "nombre": "Enf. Carla Ortega",
+      "rol": "enfermero",
+      "codigo": "ENF-001",
+      "pin": "654321",
+      "activo": true,
+      "bloqueado": false,
+      "intentosFallidos": 0,
+      "creadoEn": "2026-08-01T08:00:00"
+    },
+    "u_enf_02": {
+      "nombre": "Enf. Diego Salas",
+      "rol": "enfermero",
+      "codigo": "ENF-002",
+      "pin": "111111",
+      "activo": false,
+      "bloqueado": false,
+      "intentosFallidos": 0,
+      "creadoEn": "2026-08-01T08:00:00"
+    }
+  },
+
+  "pacientes": {
+    "000-2204-B": {
+      "id": "000-2204-B",
+      "nombre": "García López María",
+      "edad": 52,
+      "habitacion": "204",
+      "cama": "B",
+      "diagnosticos": ["DM2", "Sepsis"],
+      "estado": "critico",
+      "medicoAsignadoId": "u_med_01",
+      "medicoAsignado": "Dr. Martínez Pérez",
+      "activo": true,
+      "creadoPor": "u_med_01",
+      "creadoEn": "2026-08-01T09:10:00",
+      "signosActuales": {
+        "hr": 112,
+        "spo2": 87,
+        "sistolica": 145,
+        "diastolica": 92,
+        "temperatura": 38.5,
+        "frecuenciaRespiratoria": 22,
+        "actualizadoEn": "2026-08-02T09:42:00",
+        "origen": "simulador"
+      }
+    },
+    "000-2201-A": {
+      "id": "000-2201-A",
+      "nombre": "Torres Herrera Juan",
+      "edad": 61,
+      "habitacion": "201",
+      "cama": "A",
+      "diagnosticos": ["HAS", "Post-Qx"],
+      "estado": "estable",
+      "medicoAsignadoId": "u_med_02",
+      "medicoAsignado": "Dra. Sofía Cabrera",
+      "activo": true,
+      "creadoPor": "u_med_02",
+      "creadoEn": "2026-08-01T09:20:00",
+      "signosActuales": {
+        "hr": 75,
+        "spo2": 97,
+        "sistolica": 120,
+        "diastolica": 80,
+        "temperatura": 36.8,
+        "frecuenciaRespiratoria": 16,
+        "actualizadoEn": "2026-08-02T09:42:00",
+        "origen": "simulador"
+      }
+    },
+    "000-2202-C": {
+      "id": "000-2202-C",
+      "nombre": "Mendoza Ruiz Elena",
+      "edad": 45,
+      "habitacion": "202",
+      "cama": "C",
+      "diagnosticos": ["Neumonía"],
+      "estado": "estable",
+      "medicoAsignadoId": "u_med_01",
+      "medicoAsignado": "Dr. Martínez Pérez",
+      "activo": true,
+      "creadoPor": "u_med_01",
+      "creadoEn": "2026-08-01T10:05:00",
+      "signosActuales": {
+        "hr": 68,
+        "spo2": 99,
+        "sistolica": 118,
+        "diastolica": 76,
+        "temperatura": 37.2,
+        "frecuenciaRespiratoria": 14,
+        "actualizadoEn": "2026-08-02T09:42:00",
+        "origen": "simulador"
+      }
+    },
+    "000-2205-A": {
+      "id": "000-2205-A",
+      "nombre": "López Castro Pedro",
+      "edad": 70,
+      "habitacion": "205",
+      "cama": "A",
+      "diagnosticos": ["EPOC"],
+      "estado": "atencion",
+      "medicoAsignadoId": "u_med_02",
+      "medicoAsignado": "Dra. Sofía Cabrera",
+      "activo": true,
+      "creadoPor": "u_med_02",
+      "creadoEn": "2026-08-01T11:30:00",
+      "signosActuales": {
+        "hr": 90,
+        "spo2": 93,
+        "sistolica": 130,
+        "diastolica": 85,
+        "temperatura": 37.0,
+        "frecuenciaRespiratoria": 20,
+        "actualizadoEn": "2026-08-02T09:42:00",
+        "origen": "simulador"
+      }
+    }
+  },
+
+  "signosHistorial": {
+    "000-2204-B": {
+      "sh_001": { "hr": 98,  "spo2": 94, "sistolica": 138, "diastolica": 88, "temperatura": 38.0, "frecuenciaRespiratoria": 20, "registradoEn": "2026-08-02T08:42:00", "origen": "simulador" },
+      "sh_002": { "hr": 105, "spo2": 91, "sistolica": 142, "diastolica": 90, "temperatura": 38.2, "frecuenciaRespiratoria": 21, "registradoEn": "2026-08-02T09:12:00", "origen": "simulador" },
+      "sh_003": { "hr": 112, "spo2": 87, "sistolica": 145, "diastolica": 92, "temperatura": 38.5, "frecuenciaRespiratoria": 22, "registradoEn": "2026-08-02T09:42:00", "origen": "simulador" }
+    },
+    "000-2201-A": {
+      "sh_001": { "hr": 72, "spo2": 98, "sistolica": 118, "diastolica": 78, "temperatura": 36.7, "frecuenciaRespiratoria": 15, "registradoEn": "2026-08-02T08:42:00", "origen": "simulador" },
+      "sh_002": { "hr": 75, "spo2": 97, "sistolica": 120, "diastolica": 80, "temperatura": 36.8, "frecuenciaRespiratoria": 16, "registradoEn": "2026-08-02T09:42:00", "origen": "simulador" }
+    },
+    "000-2202-C": {
+      "sh_001": { "hr": 68, "spo2": 99, "sistolica": 118, "diastolica": 76, "temperatura": 37.2, "frecuenciaRespiratoria": 14, "registradoEn": "2026-08-02T09:42:00", "origen": "simulador" }
+    },
+    "000-2205-A": {
+      "sh_001": { "hr": 88, "spo2": 94, "sistolica": 128, "diastolica": 84, "temperatura": 37.0, "frecuenciaRespiratoria": 19, "registradoEn": "2026-08-02T08:42:00", "origen": "simulador" },
+      "sh_002": { "hr": 90, "spo2": 93, "sistolica": 130, "diastolica": 85, "temperatura": 37.0, "frecuenciaRespiratoria": 20, "registradoEn": "2026-08-02T09:42:00", "origen": "simulador" }
+    }
+  },
+
+  "inventario": {
+    "inv_metformina": { "nombre": "Metformina", "presentacion": "Tableta 500 mg", "dosisSugerida": "500mg", "via": "oral", "stock": 120, "stockMinimo": 20, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" },
+    "inv_furosemida": { "nombre": "Furosemida", "presentacion": "Ampolleta 40 mg", "dosisSugerida": "40mg", "via": "iv", "stock": 35, "stockMinimo": 10, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" },
+    "inv_omeprazol": { "nombre": "Omeprazol", "presentacion": "Cápsula 20 mg", "dosisSugerida": "20mg", "via": "oral", "stock": 80, "stockMinimo": 15, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" },
+    "inv_amoxicilina": { "nombre": "Amoxicilina", "presentacion": "Cápsula 500 mg", "dosisSugerida": "500mg", "via": "oral", "stock": 60, "stockMinimo": 15, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" },
+    "inv_insulina_nph": { "nombre": "Insulina NPH", "presentacion": "Frasco 100 UI/mL", "dosisSugerida": "10U", "via": "sc", "stock": 12, "stockMinimo": 5, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" },
+    "inv_paracetamol": { "nombre": "Paracetamol", "presentacion": "Tableta 500 mg", "dosisSugerida": "500mg", "via": "oral", "stock": 200, "stockMinimo": 30, "actualizadoEn": "2026-08-01T12:00:00", "actualizadoPor": "u_farm_01" }
+  },
+
+  "ordenes": {
+    "ord_001": {
+      "pacienteId": "000-2204-B", "pacienteNombre": "García", "habitacion": "204B",
+      "medicamentoId": "inv_metformina", "medicamento": "Metformina", "dosis": "500mg", "via": "oral",
+      "horaProgramada": "2026-08-02T10:00:00", "estado": "pendiente",
+      "prescritoPor": "u_med_01", "prescritoEn": "2026-08-02T07:00:00",
+      "administradoPor": null, "administradoEn": null
+    },
+    "ord_002": {
+      "pacienteId": "000-2201-A", "pacienteNombre": "Torres", "habitacion": "201A",
+      "medicamentoId": "inv_furosemida", "medicamento": "Furosemida", "dosis": "40mg", "via": "iv",
+      "horaProgramada": "2026-08-02T10:00:00", "estado": "pendiente",
+      "prescritoPor": "u_med_02", "prescritoEn": "2026-08-02T07:05:00",
+      "administradoPor": null, "administradoEn": null
+    },
+    "ord_003": {
+      "pacienteId": "000-2202-C", "pacienteNombre": "Mendoza", "habitacion": "202C",
+      "medicamentoId": "inv_omeprazol", "medicamento": "Omeprazol", "dosis": "20mg", "via": "oral",
+      "horaProgramada": "2026-08-02T08:00:00", "estado": "administrada",
+      "prescritoPor": "u_med_01", "prescritoEn": "2026-08-01T20:00:00",
+      "administradoPor": "u_enf_01", "administradoEn": "2026-08-02T08:04:00"
+    },
+    "ord_004": {
+      "pacienteId": "000-2205-A", "pacienteNombre": "López", "habitacion": "205A",
+      "medicamentoId": "inv_amoxicilina", "medicamento": "Amoxicilina", "dosis": "500mg", "via": "oral",
+      "horaProgramada": "2026-08-02T08:00:00", "estado": "administrada",
+      "prescritoPor": "u_med_02", "prescritoEn": "2026-08-01T20:10:00",
+      "administradoPor": "u_enf_01", "administradoEn": "2026-08-02T08:12:00"
+    },
+    "ord_005": {
+      "pacienteId": "000-2204-B", "pacienteNombre": "García", "habitacion": "204B",
+      "medicamentoId": "inv_insulina_nph", "medicamento": "Insulina NPH", "dosis": "10U", "via": "sc",
+      "horaProgramada": "2026-08-02T07:30:00", "estado": "administrada",
+      "prescritoPor": "u_med_01", "prescritoEn": "2026-08-01T20:15:00",
+      "administradoPor": "u_enf_01", "administradoEn": "2026-08-02T07:33:00"
+    },
+    "ord_006": {
+      "pacienteId": "000-2204-B", "pacienteNombre": "García", "habitacion": "204B",
+      "medicamentoId": "inv_paracetamol", "medicamento": "Paracetamol", "dosis": "500mg", "via": "oral",
+      "horaProgramada": "2026-08-02T14:00:00", "estado": "pendiente",
+      "prescritoPor": "u_med_01", "prescritoEn": "2026-08-02T07:20:00",
+      "administradoPor": null, "administradoEn": null
+    }
+  },
+
+  "alertas": {
+    "alr_001": {
+      "pacienteId": "000-2204-B", "pacienteNombre": "García López María", "habitacion": "204B",
+      "tipo": "spo2", "severidad": "critica", "valor": 87,
+      "mensaje": "SpO2 87% (umbral crítico < 90%)",
+      "creadaEn": "2026-08-02T09:42:00", "creadaPor": "simulador",
+      "atendida": false, "atendidaPor": null, "atendidaEn": null
+    },
+    "alr_002": {
+      "pacienteId": "000-2204-B", "pacienteNombre": "García López María", "habitacion": "204B",
+      "tipo": "hr", "severidad": "critica", "valor": 112,
+      "mensaje": "FC 112 lpm (umbral crítico > 120 próximo)",
+      "creadaEn": "2026-08-02T09:12:00", "creadaPor": "simulador",
+      "atendida": true, "atendidaPor": "u_enf_01", "atendidaEn": "2026-08-02T09:20:00"
+    },
+    "alr_003": {
+      "pacienteId": "000-2205-A", "pacienteNombre": "López Castro Pedro", "habitacion": "205A",
+      "tipo": "spo2", "severidad": "atencion", "valor": 93,
+      "mensaje": "SpO2 93% (umbral de atención < 94%)",
+      "creadaEn": "2026-08-02T09:42:00", "creadaPor": "simulador",
+      "atendida": false, "atendidaPor": null, "atendidaEn": null
+    }
+  }
+}

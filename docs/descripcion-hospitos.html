@@ -1,0 +1,616 @@
+<title>HospitOS — Sistema de Gestión Hospitalaria</title>
+
+<style>
+  :root {
+    --bg: #141414;
+    --surface: #1e1e1e;
+    --surface2: #252525;
+    --border: #333330;
+    --text: #f5f5f0;
+    --muted: #8b8b82;
+    --accent: #f0a090;
+    --accent-dim: #c06050;
+    --stable: #50d870;
+    --attention: #e8e030;
+    --critical: #f04060;
+    --on-accent: #141414;
+
+    --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --measure: 34rem;
+    --pad: clamp(1.25rem, 5vw, 2.5rem);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #efeee9;
+      --surface: #ffffff;
+      --surface2: #f7f6f2;
+      --border: #d9d8d0;
+      --text: #16150f;
+      --muted: #6b6b60;
+      --accent: #b85742;
+      --accent-dim: #8f3f2e;
+      --stable: #2a7a45;
+      --attention: #7d7200;
+      --critical: #c4243f;
+      --on-accent: #ffffff;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg: #efeee9;
+    --surface: #ffffff;
+    --surface2: #f7f6f2;
+    --border: #d9d8d0;
+    --text: #16150f;
+    --muted: #6b6b60;
+    --accent: #b85742;
+    --accent-dim: #8f3f2e;
+    --stable: #2a7a45;
+    --attention: #7d7200;
+    --critical: #c4243f;
+    --on-accent: #ffffff;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #141414;
+    --surface: #1e1e1e;
+    --surface2: #252525;
+    --border: #333330;
+    --text: #f5f5f0;
+    --muted: #8b8b82;
+    --accent: #f0a090;
+    --accent-dim: #c06050;
+    --stable: #50d870;
+    --attention: #e8e030;
+    --critical: #f04060;
+    --on-accent: #141414;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 var(--pad) 6rem;
+  }
+
+  .col {
+    max-width: var(--measure);
+  }
+
+  p {
+    margin: 0 0 1.15em;
+    text-wrap: pretty;
+  }
+
+  strong { color: var(--text); font-weight: 650; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ── Portada ───────────────────────────────────────────────────── */
+  .hero {
+    padding: clamp(3rem, 11vh, 6.5rem) 0 0;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: clamp(3.1rem, 13vw, 7.5rem);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    margin: 0.5rem 0 0;
+    text-wrap: balance;
+  }
+
+  .wordmark span { color: var(--accent); }
+
+  .lead {
+    font-size: clamp(1.25rem, 3.2vw, 1.65rem);
+    line-height: 1.42;
+    letter-spacing: -0.011em;
+    margin: 1.6rem 0 0;
+    max-width: 28ch;
+    text-wrap: balance;
+  }
+
+  .lead em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .trace {
+    display: block;
+    width: 100%;
+    height: 92px;
+    margin: 2.75rem 0 0;
+  }
+
+  /* ── Ritmo de secciones ────────────────────────────────────────── */
+  section {
+    border-top: 1px solid var(--border);
+    padding: clamp(2.75rem, 8vh, 4.5rem) 0 0;
+    margin-top: clamp(2.75rem, 8vh, 4.5rem);
+  }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: clamp(1.45rem, 3.6vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin: 0.85rem 0 1.6rem;
+    text-wrap: balance;
+  }
+
+  /* ── Recorrido del turno (secuencia real) ──────────────────────── */
+  ol.flow {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  ol.flow li {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr;
+    gap: 0 1rem;
+    align-items: baseline;
+  }
+
+  ol.flow .n {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    border-top: 2px solid var(--accent);
+    padding-top: 0.35rem;
+  }
+
+  ol.flow h3 {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    margin: 0 0 0.2rem;
+    letter-spacing: -0.005em;
+  }
+
+  ol.flow p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+
+  /* ── Roles ─────────────────────────────────────────────────────── */
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0.75rem;
+    margin: 0 0 1.75rem;
+  }
+
+  .role {
+    background: var(--surface2);
+    border-radius: 10px;
+    border-left: 3px solid var(--role, var(--accent));
+    padding: 1rem 1.1rem;
+  }
+
+  .role h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+  }
+
+  .role p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* ── Tarjeta de paciente (idioma visual de la app) ─────────────── */
+  figure {
+    margin: 0 0 1.75rem;
+  }
+
+  .patient {
+    background: var(--surface2);
+    border: 1px solid var(--critical);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    max-width: 24rem;
+  }
+
+  .patient .top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .patient .name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .patient .meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    background: var(--critical);
+    color: #ffffff;
+    border-radius: 3px;
+    padding: 0.15rem 0.45rem;
+    white-space: nowrap;
+  }
+
+  .patient .vitals {
+    display: flex;
+    gap: 1.1rem;
+    margin-top: 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--critical);
+  }
+
+  figcaption {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-top: 0.6rem;
+  }
+
+  /* ── Ficha técnica ─────────────────────────────────────────────── */
+  .sheet {
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9375rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.7rem 1rem 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  th {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    width: 11rem;
+    padding-right: 2rem;
+  }
+
+  /* ── Cierre ────────────────────────────────────────────────────── */
+  .scope {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.5rem;
+  }
+
+  .scope p:last-child { margin-bottom: 0; }
+
+  .scope .eyebrow { margin-bottom: 0.7rem; color: var(--attention); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">Sistema de Gestión Hospitalaria</p>
+    <h1 class="wordmark">Hospit<span>OS</span></h1>
+    <p class="lead">
+      El expediente, los signos vitales y la alerta crítica, en el bolsillo de
+      <em>quien está junto a la cama</em>.
+    </p>
+    <canvas class="trace" id="trace" aria-hidden="true"></canvas>
+  </header>
+
+  <section>
+    <p class="eyebrow">Qué es</p>
+    <h2>Un sistema clínico hecho para el piso, no para el escritorio.</h2>
+    <div class="col">
+      <p>
+        HospitOS nace de una observación incómoda: la información que decide una urgencia
+        casi nunca está donde ocurre la urgencia. Está en la computadora del control de
+        enfermería, en una hoja impresa que alguien se llevó, en la memoria de quien pasó
+        visita hace dos horas. El personal clínico camina; los datos, no.
+      </p>
+      <p>
+        HospitOS invierte esa relación. Todo el expediente —quién es el paciente, qué se le
+        diagnosticó, cómo respira ahora mismo, qué medicamento le toca y quién se lo dio—
+        vive en el teléfono que el médico y el enfermero ya traen encima. Se abre escaneando
+        el código de la pulsera. Se actualiza solo. Y cuando algo se sale de rango, no espera
+        a que alguien lo consulte: <strong>interrumpe</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">El recorrido de un turno</p>
+    <h2>Cinco momentos, un solo dispositivo.</h2>
+    <ol class="flow">
+      <li>
+        <span class="n">01</span>
+        <div>
+          <h3>Admisión</h3>
+          <p>Un formulario de cinco campos crea el expediente en segundos. Queda registrado quién lo abrió.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n">02</span>
+        <div>
+          <h3>Identificación</h3>
+          <p>Cada paciente lleva un código QR. Escanearlo abre su expediente al instante, sin buscar en listas.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n">03</span>
+        <div>
+          <h3>Monitoreo</h3>
+          <p>El monitor de cabecera publica los signos vitales de forma continua. La lista de pacientes cambia de color sola.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n">04</span>
+        <div>
+          <h3>Alerta</h3>
+          <p>Si un valor cruza el umbral clínico, el aviso aparece sobre la pantalla del personal, esté donde esté en la app.</p>
+        </div>
+      </li>
+      <li>
+        <span class="n">05</span>
+        <div>
+          <h3>Medicación</h3>
+          <p>El médico receta desde el perfil del paciente; el enfermero marca la dosis y queda firmada con su nombre y la hora.</p>
+        </div>
+      </li>
+    </ol>
+    <div class="col" style="margin-top:1.75rem">
+      <p>
+        Cinco pasos que hoy involucran una computadora fija, dos hojas de papel y una
+        llamada por teléfono.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Un sistema, cuatro oficios</p>
+    <h2>La aplicación se reconfigura según quién entra.</h2>
+    <div class="roles">
+      <div class="role" style="--role: var(--accent)">
+        <h3>Médico</h3>
+        <p>Admite pacientes, revisa signos vitales y prescribe desde el expediente.</p>
+      </div>
+      <div class="role" style="--role: var(--stable)">
+        <h3>Enfermero</h3>
+        <p>Ve las dosis pendientes del turno y firma cada administración.</p>
+      </div>
+      <div class="role" style="--role: var(--attention)">
+        <h3>Farmacéutico</h3>
+        <p>Ajusta el inventario desde el estante, con el teléfono en la mano.</p>
+      </div>
+      <div class="role" style="--role: var(--critical)">
+        <h3>Administrador</h3>
+        <p>Da de alta accesos, desactiva usuarios y supervisa el piso completo.</p>
+      </div>
+    </div>
+    <div class="col">
+      <p>
+        Nadie navega entre pantallas que no le tocan. El acceso también se adapta al oficio:
+        el personal clínico entra con un código corto y un PIN de seis dígitos —rápido, con
+        las manos ocupadas, con guantes puestos—; el personal de gestión, con correo y
+        contraseña.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Tiempo real</p>
+    <h2>No hay botón de actualizar.</h2>
+    <figure>
+      <div class="patient">
+        <div class="top">
+          <div>
+            <div class="name">García López María</div>
+            <div class="meta">Hab. 204B · DM2 · Sepsis</div>
+          </div>
+          <span class="chip">CRÍTICO</span>
+        </div>
+        <div class="vitals">
+          <span>&#9829; 112 bpm</span>
+          <span>SpO&#8322; 87%</span>
+        </div>
+      </div>
+      <figcaption>Lista de pacientes · el estado lo escribe el monitor, no una persona</figcaption>
+    </figure>
+    <div class="col">
+      <p>
+        Cada pantalla está suscrita a los datos que muestra. Cuando el monitor de la cama
+        204-B publica una saturación de 87 %, la tarjeta de esa paciente se pone roja en el
+        teléfono de todo el personal del piso antes de que nadie haya tocado nada.
+      </p>
+      <p>
+        Los umbrales de lo que se considera crítico no están escondidos en el código: viven
+        en la base de datos y se ajustan en caliente, porque lo que es alarmante en terapia
+        intensiva no lo es en recuperación.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Un dispositivo cualquiera</p>
+    <h2>Del reloj de pulsera a la pantalla de la sala.</h2>
+    <div class="col">
+      <p>
+        La interfaz se rediseña sola según el aparato que la abre: barra inferior en el
+        teléfono, riel lateral en la tablet, navegación por control remoto en la pantalla de
+        la sala, y una versión comprimida para reloj inteligente donde solo caben los signos
+        y la alerta.
+      </p>
+      <p>
+        El monitor de cabecera tampoco requiere hardware. Cualquier teléfono puede entrar en
+        <strong>Modo Simulador</strong>, vincularse a un paciente y comportarse como su
+        monitor de signos vitales, con el código QR en pantalla listo para escanear.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Ficha técnica</p>
+    <h2>Cómo está construido.</h2>
+    <div class="sheet">
+      <table>
+        <tbody>
+          <tr><th scope="row">Plataforma</th><td>Flutter — Android, web y escritorio desde una sola base de código</td></tr>
+          <tr><th scope="row">Datos</th><td>Firebase Realtime Database, con suscripciones en vivo</td></tr>
+          <tr><th scope="row">Arquitectura</th><td>Toda la lógica en el cliente; sin servidor propio ni servicios de pago</td></tr>
+          <tr><th scope="row">Interfaz</th><td>Adaptativa: reloj, teléfono, tablet y televisión</td></tr>
+          <tr><th scope="row">Identificación</th><td>Códigos QR generados a partir del identificador del paciente</td></tr>
+          <tr><th scope="row">Alcance</th><td>Prototipo funcional (MVP) para demostración</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="scope">
+      <p class="eyebrow">Nota de alcance</p>
+      <p>
+        HospitOS es hoy un prototipo de demostración. Funciona de extremo a extremo, con
+        datos reales moviéndose en tiempo real entre dispositivos, pero corre en un entorno
+        controlado y sin las medidas de seguridad que exigiría un despliegue clínico. Es una
+        prueba de concepto de la idea, no un producto certificado.
+      </p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function () {
+    const canvas = document.getElementById('trace');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let w = 0, h = 0, dpr = 1;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // Un latido normalizado: onda P, complejo QRS y onda T.
+    function beat(p) {
+      const bump = (c, width, amp) => amp * Math.exp(-Math.pow((p - c) / width, 2));
+      let v = bump(0.16, 0.022, 0.13) + bump(0.56, 0.055, 0.22);
+      if (p > 0.26 && p < 0.29) v -= 0.13 * Math.sin(((p - 0.26) / 0.03) * Math.PI);
+      if (p >= 0.29 && p < 0.32) v += 1.0 * Math.sin(((p - 0.29) / 0.03) * Math.PI);
+      if (p >= 0.32 && p < 0.36) v -= 0.24 * Math.sin(((p - 0.32) / 0.04) * Math.PI);
+      return v;
+    }
+
+    const PERIOD = 190;   // px por latido
+    const SPEED = 62;     // px por segundo
+    let offset = 0;
+    let last = 0;
+
+    function draw(now) {
+      const accent = getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent').trim() || '#f0a090';
+      const mid = h * 0.62;
+      const amp = h * 0.42;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Línea de base
+      ctx.strokeStyle = accent;
+      ctx.globalAlpha = 0.14;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, mid);
+      ctx.lineTo(w, mid);
+      ctx.stroke();
+
+      // Trazo
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = 1.6;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      for (let x = 0; x <= w; x++) {
+        const phase = (((x + offset) % PERIOD) + PERIOD) % PERIOD / PERIOD;
+        const y = mid - beat(phase) * amp;
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      // Desvanecido hacia la izquierda: el trazo entra por el borde derecho.
+      const grad = ctx.createLinearGradient(0, 0, w, 0);
+      grad.addColorStop(0, 'transparent');
+      grad.addColorStop(0.28, accent);
+      grad.addColorStop(1, accent);
+      ctx.strokeStyle = grad;
+      ctx.stroke();
+
+      if (!reduced) {
+        const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+        last = now;
+        offset += SPEED * dt;
+        requestAnimationFrame(draw);
+      }
+    }
+
+    const ro = new ResizeObserver(() => {
+      resize();
+      if (reduced) draw(0);
+    });
+    ro.observe(canvas);
+
+    resize();
+    requestAnimationFrame(draw);
+  })();
+</script>
